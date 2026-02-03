@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 😏</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0f0f0f;
+        font-family: Arial, sans-serif;
+        color: white;
+        padding: 20px;
+    }
+
+    .container {
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    img {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 14px;
+        transition: transform 0.3s ease;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    button {
+        padding: 12px 26px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        min-width: 120px;
+    }
+
+    #yes {
+        background-color: #2ecc71;
+        color: white;
+    }
+
+    #no {
+        background-color: #e74c3c;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="main">
+    <img id="gif" src="emote1.gif">
+    <h2>Will you be my Valentine? 💘</h2>
+
+    <div class="buttons">
+        <button id="yes">Yes 💚</button>
+        <button id="no">No ❌</button>
+    </div>
+</div>
+
+<script>
+    let noCount = 0;
+    let noScale = 1;
+
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const gif = document.getElementById("gif");
+    const mainDiv = document.getElementById("main");
+
+    const noTexts = [
+        "Are you sure? 😐",
+        "Think again 😶",
+        "Really?? 🤨",
+        "Come on 😕",
+        "Last chance 😬",
+        "Why no? 😢",
+        "Don’t do this 😭",
+        "Okay this ain't good 💔",
+        "Just say yes 😵",
+        "Please 😁"
+    ];
+
+    const noGifs = [
+        "emote2.gif",
+        "emote3.gif",
+        "emote4.gif",
+        "emote6.gif",
+        "emote5.gif",
+        "emotelast.gif",
+    ];
+
+    noBtn.addEventListener("click", () => {
+        noCount++;
+
+        // 📳 Phone vibration (mobile only)
+        if (navigator.vibrate) {
+            navigator.vibrate(80);
+        }
+
+        // Grow YES button
+        let yesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        yesBtn.style.fontSize = (yesSize + 4) + "px";
+
+        // VERY slow shrink of NO button
+        noScale -= 0.05;
+        noBtn.style.transform = `scale(${noScale})`;
+
+        // Change NO text
+        if (noCount <= noTexts.length) {
+            noBtn.textContent = noTexts[noCount - 1];
+        }
+
+        // Change GIF with subtle pop
+        if (noCount <= noGifs.length) {
+            gif.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                gif.src = noGifs[noCount - 1];
+                gif.style.transform = "scale(1)";
+            }, 150);
+        }
+
+        // Remove NO button
+        if (noCount >= 10) {
+            noBtn.style.display = "none";
+        }
+    });
+
+    yesBtn.addEventListener("click", () => {
+        mainDiv.innerHTML = `
+            <img src="thankyou.gif">
+            <h1>Thank You ❤️</h1>
+            <p>You are amazing.. 💖</p>
+        `;
+    });
+</script>
+
+</body>
+</html>
